@@ -44,12 +44,11 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
             <div><strong>Power: </strong>{power ? power : notAvailable}</div>
             <div><strong>Toughness: </strong>{toughness ? toughness : notAvailable}</div>
             <hr />
-            {flavor && <p>"{flavor}"</p>}
+            {flavor && <p>"{flavor.replace('"', '')}"</p>}
             <p>{text}</p>
             <br />
         </>
     );
-
 }
 
 export default CardDetail;
