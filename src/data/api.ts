@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { ICard } from './models/ICard';
+import { IMagicCard } from './models/IMagicCard';
 
-export const getAllCards = (): Promise<ICard[]> => {
+export const getAllCards = (): Promise<IMagicCard[]> => {
     // #### would normally place this URL in .env file and access via process.ENV variable ####
     const url = 'https://api.magicthegathering.io/v1/cards';
     return axios

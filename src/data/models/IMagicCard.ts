@@ -1,6 +1,6 @@
 import { Hash } from 'crypto';
 
-export interface ICard {
+export interface IMagicCard {
     name: string;
     names?: string[];
     layout: 'normal|split|flip|double-faced|token|plane|scheme|phenomenon|leveler|vanguard|aftermath';

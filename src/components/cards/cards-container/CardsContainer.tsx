@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { getAllCards } from '../../../data/api';
-import { ICard } from '../../../data/models/ICard';
+import { IMagicCard } from '../../../data/models/IMagicCard';
 import CardsGallery from '../cards-gallery/CardsGallery';
 
 const CardsContainer = () => {
-    const [cards, setCards] = useState<ICard[]>([]);
+    const [cards, setCards] = useState<IMagicCard[]>([]);
 
     useEffect(() => {
         const getData = async (): Promise<void> => {

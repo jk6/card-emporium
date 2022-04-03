@@ -1,8 +1,8 @@
 import React from 'react';
-import { ICard } from '../../../data/models/ICard';
+import { IMagicCard } from '../../../data/models/IMagicCard';
 
-const CardsGallery = ({ cards }: { [key: string]: ICard[] }) => {
-    const results = cards.map((card: ICard, i: number) => {
+const CardsGallery = ({ cards }: { [key: string]: IMagicCard[] }) => {
+    const results = cards.map((card: IMagicCard, i: number) => {
         return <li key={i}>{card.artist}</li>
     });
 
