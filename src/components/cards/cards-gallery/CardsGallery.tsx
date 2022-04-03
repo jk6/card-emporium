@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ReactModal from 'react-modal';
 import { IMagicCard } from '../../../data/models/IMagicCard';
 import CardDetail from '../card-detail/CardDetail';
@@ -30,7 +30,6 @@ const CardsGallery = ({ cards }: { [key: string]: IMagicCard[] }) => {
                 <div>
                     <button onClick={handleCloseModal} type="button">Close</button>
                     <CardDetail card={selected} />
-
                 </div>
             </ReactModal>
         </>
