@@ -8,5 +8,5 @@ export const getAllCards = (): Promise<IMagicCard[]> => {
     return axios
         .get(url)
         .then((res) => res.data.cards)
-        .catch(() => console.log('something went wrong!'));
+        .catch((error) => console.log(error));
 };
