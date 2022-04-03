@@ -37,7 +37,7 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
             <h1>{name}</h1>
             <h3>{artist}</h3>
             <div>
-                <img src={imageUrl} alt={name} />
+                <img src={imageUrl} height={400} width={284} alt={name} />
             </div>
             <div><strong>Color Identity: </strong>{colorIdentity ? colorIdentity : notAvailable}</div>
             <div><strong>Layout: </strong>{layout ? layout : notAvailable}</div>
