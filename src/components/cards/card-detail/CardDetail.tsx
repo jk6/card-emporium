@@ -6,6 +6,7 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
         id,
         name,
         imageUrl,
+        setName,
         power,
         toughness,
         colors,
@@ -39,6 +40,11 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
             <div>
                 <img src={imageUrl} height={400} width={284} alt={name} />
             </div>
+
+            <div><strong>Type: </strong>{type ? type : notAvailable}</div>
+            <div><strong>Set: </strong>{setName ? setName : notAvailable}</div>
+            <div><strong>CMC: </strong>{cmc ? cmc : notAvailable}</div>
+            <div><strong>Rarity: </strong>{rarity ? rarity : notAvailable}</div>
             <div><strong>Color Identity: </strong>{colorIdentity ? colorIdentity : notAvailable}</div>
             <div><strong>Layout: </strong>{layout ? layout : notAvailable}</div>
             <div><strong>Power: </strong>{power ? power : notAvailable}</div>
