@@ -23,8 +23,8 @@ const CardsGallery = () => {
         getData();
     }, [page]);
 
-    const handleChangePage = (page: number): void => {
-        setPage(page);
+    const handleChangePage = (pageNum: number): void => {
+        setPage(pageNum);
     };
 
     const handleOpenModal = (card: IMagicCard) => {
@@ -38,14 +38,22 @@ const CardsGallery = () => {
 
     const results = cards.map((card: IMagicCard, i: number) => {
         return <span style={styles.hover} onClick={() => handleOpenModal(card)} key={`${card.id}`}>
-            <img src={card.imageUrl} />
+            <img style={styles.padding} src={card.imageUrl} />
         </span>
     });
 
     if (cards && cards?.length) {
         // TODO: replace with different solution
         let pageLinksDisplay = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i: number) => {
-            return <span key={i} onClick={() => handleChangePage(i)}><a href="#">{i}</a>&nbsp;</span>
+            return (
+                <span
+                    key={i}
+                    onClick={() => handleChangePage(i)}
+                    style={page === i ? styles.active : null}
+                >
+                    <a href="#">{i}</a>&nbsp;&nbsp;
+                </span>
+            );
         });
 
         return (
@@ -77,6 +85,12 @@ const CardsGallery = () => {
 const styles: any = {
     hover: {
         cursor: 'pointer',
+    },
+    active: {
+        fontSize: '22px',
+    },
+    padding: {
+        padding: '2px',
     }
 };
 
