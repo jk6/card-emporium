@@ -10,6 +10,8 @@ export interface IMagicCard {
     type: string;
     supertypes: string[];
     types: string[];
+    legalities: ILegality[];
+    manaCost: string;
     subtypes: string[];
     rarity: string;
     set: string;
@@ -42,4 +44,9 @@ export interface IForeignName {
     name: string;
     language: string;
     multiverseid: number;
+}
+
+export interface ILegality {
+    format: string;
+    legality: string;
 }

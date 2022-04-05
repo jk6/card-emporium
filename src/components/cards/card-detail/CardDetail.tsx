@@ -17,7 +17,7 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
         layout,
         legalities,
         manaCost,
-        multiverseId,
+        multiverseid,
         number,
         originalText,
         originalType,
