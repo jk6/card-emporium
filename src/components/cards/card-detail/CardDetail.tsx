@@ -51,9 +51,16 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
                 <img src={imageUrl} height={400} width={284} alt={name} />
             </div>
 
+            {flavor && <p>"{flavor.replace('"', '')}"</p>}
+            <p>{text}</p>
+
+            <hr />
+
             <div><strong>Artist: </strong>{artist ? artist : notAvailable}</div>
             <div><strong>Set: </strong>{setName ? setName : notAvailable}</div>
             <div><strong>Type: </strong>{type ? type : notAvailable}</div>
+            <div><strong>Power: </strong>{power ? power : notAvailable}</div>
+            <div><strong>Toughness: </strong>{toughness ? toughness : notAvailable}</div>
             <div><strong>CMC: </strong>{cmc ? cmc : notAvailable}</div>
             <div><strong>Rarity: </strong>{rarity ? rarity : notAvailable}</div>
 
@@ -66,11 +73,8 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
 
             <div><strong>Color Identity: </strong>{colorIdentity ? colorIdentity : notAvailable}</div>
             <div><strong>Layout: </strong>{layout ? layout : notAvailable}</div>
-            <div><strong>Power: </strong>{power ? power : notAvailable}</div>
-            <div><strong>Toughness: </strong>{toughness ? toughness : notAvailable}</div>
             <hr />
-            {flavor && <p>"{flavor.replace('"', '')}"</p>}
-            <p>{text}</p>
+
             <br />
         </>
     );
