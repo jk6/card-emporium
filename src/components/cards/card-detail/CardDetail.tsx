@@ -50,7 +50,7 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
                 <img src={imageUrl} height={400} width={284} alt={name} />
             </div>
 
-            {flavor && <p>"{flavor.replace('"', '')}"</p>}
+            {flavor && <p><em>"{flavor.replace('"', '')}"</em></p>}
             <p>{text}</p>
 
             <hr />
