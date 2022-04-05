@@ -6,6 +6,7 @@ import CardDetail from '../card-detail/CardDetail';
 
 const CardsGallery = () => {
     const [cards, setCards] = useState<IMagicCard[]>([]);
+    const [filteredCards, setFilteredCards] = useState<IMagicCard[]>([]);
     const [selected, setSelected] = useState<IMagicCard>();
     const [page, setPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(12);
@@ -24,7 +25,15 @@ const CardsGallery = () => {
     }, [page]);
 
     const handleChangePage = (pageNum: number): void => {
+        setFilteredCards([]);
         setPage(pageNum);
+    };
+
+    const filterResults = (term: string) => {
+        // capitalize first letter of entered name
+        term = `${term.charAt(0).toUpperCase()}${term.slice(1)}`;
+        let result = cards.filter(card => card.name.includes(term));
+        setFilteredCards(result);
     };
 
     const handleOpenModal = (card: IMagicCard) => {
@@ -36,9 +45,11 @@ const CardsGallery = () => {
         setIsModalOpen(false);
     };
 
-    const results = cards.map((card: IMagicCard, i: number) => {
+    const cardsToDisplay = filteredCards.length ? filteredCards : cards;
+
+    const results = cardsToDisplay.map((card: IMagicCard) => {
         return <span style={styles.hover} onClick={() => handleOpenModal(card)} key={`${card.id}`}>
-            <img style={styles.padding} src={card.imageUrl} />
+            <img style={styles.cardPadding} src={card.imageUrl} />
         </span>
     });
 
@@ -62,6 +73,8 @@ const CardsGallery = () => {
                 <div>{pageLinksDisplay}</div>
                 <br />
                 <br />
+                <strong>Filter results</strong>
+                <input type="text" onChange={(e) => filterResults(e.target.value)} />
                 <br />
                 <br />
 
@@ -89,9 +102,9 @@ const styles: any = {
     active: {
         fontSize: '22px',
     },
-    padding: {
+    cardPadding: {
         padding: '2px',
-    }
+    },
 };
 
 export default CardsGallery;

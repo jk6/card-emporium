@@ -34,9 +34,9 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
     let legalitiesDisplay;
 
     if (legalities && legalities?.length) {
-        legalitiesDisplay = legalities.map((legality: ILegality) => {
+        legalitiesDisplay = legalities.map((legality: ILegality, i: number) => {
             return (
-                <li>
+                <li key={i}>
                     <strong>{legality.format}</strong>: {legality.legality}
                 </li>
             );
