@@ -1,9 +1,9 @@
-import CardsContainer from './components/cards/cards-container/CardsContainer';
+import CardsGallery from './components/cards/cards-gallery/CardsGallery';
 
 function App() {
   return (
     <div>
-      <CardsContainer />
+      <CardsGallery />
     </div>
   );
 }
