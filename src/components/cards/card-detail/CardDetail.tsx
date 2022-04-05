@@ -1,4 +1,4 @@
-import { IMagicCard } from "../../../data/models/IMagicCard";
+import { ILegality, IMagicCard } from "../../../data/models/IMagicCard";
 
 const CardDetail = ({ card }: { card: IMagicCard } | any) => {
     const {
@@ -31,6 +31,18 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
     } = card;
 
     const notAvailable = 'Not Available';
+    let legalitiesDisplay;
+
+    if (legalities && legalities?.length) {
+        legalitiesDisplay = legalities.map((legality: ILegality) => {
+            return (
+                <li>
+                    <strong>Format: </strong>{legality.format}, &nbsp;
+                    <strong>Legality: </strong>{legality.legality}
+                </li>
+            );
+        })
+    }
 
     return (
         <>
@@ -44,6 +56,14 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
             <div><strong>Type: </strong>{type ? type : notAvailable}</div>
             <div><strong>CMC: </strong>{cmc ? cmc : notAvailable}</div>
             <div><strong>Rarity: </strong>{rarity ? rarity : notAvailable}</div>
+
+            <div>
+                <strong>Legalities: </strong>
+                {legalities.length ?
+                    <ul style={styles.list}>{legalitiesDisplay}</ul>
+                    : notAvailable}
+            </div>
+
             <div><strong>Color Identity: </strong>{colorIdentity ? colorIdentity : notAvailable}</div>
             <div><strong>Layout: </strong>{layout ? layout : notAvailable}</div>
             <div><strong>Power: </strong>{power ? power : notAvailable}</div>
@@ -54,6 +74,12 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
             <br />
         </>
     );
+};
+
+const styles = {
+    list: {
+        listStyle: 'none',
+    }
 }
 
 export default CardDetail;
