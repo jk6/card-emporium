@@ -10,6 +10,7 @@ const CardsGallery = () => {
     const [selected, setSelected] = useState<IMagicCard>();
     const [page, setPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(12);
+    const [filterType, setFilterType] = useState<string>('Name');
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
@@ -29,11 +30,25 @@ const CardsGallery = () => {
         setPage(pageNum);
     };
 
+    const handleChangeFilterType = (value: string) => {
+        setFilterType(value);
+    }
+
     const filterResults = (term: string) => {
         // capitalize first letter of entered name
         term = `${term.charAt(0).toUpperCase()}${term.slice(1)}`;
-        let result = cards.filter(card => card.name.includes(term));
-        setFilteredCards(result);
+        let result: IMagicCard[];
+
+        if (filterType === 'Name') {
+            result = cards.filter(card => card.name.includes(term));
+            setFilteredCards(result);
+        }
+        else if (filterType === 'Color') {
+            result = cards.filter(card => card.colors.includes(term));
+            // TODO:
+            console.log(term);
+            setFilteredCards(result);
+        }
     };
 
     const handleOpenModal = (card: IMagicCard) => {
@@ -73,8 +88,16 @@ const CardsGallery = () => {
                 <div>{pageLinksDisplay}</div>
                 <br />
                 <br />
-                <strong>Filter results</strong>
-                <input type="text" onChange={(e) => filterResults(e.target.value)} />
+                <strong>Filter results by</strong>&nbsp;
+                <select onChange={(value) => handleChangeFilterType(value.target.value)}>
+                    <option value={'Name'}>Name</option>
+                    <option value={'Color'}>Color</option>
+                </select>&nbsp;
+                <input
+                    type="text"
+                    id="search"
+                    onChange={(e) => filterResults(e.target.value)}
+                />
                 <br />
                 <br />
 
