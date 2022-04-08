@@ -48,27 +48,21 @@ const CardsGallery = () => {
     const filterResults = (term: string) => {
         if (term) {
             setIsSearchActive(true);
+
+            // capitalize first letter of entered term
+            term = `${term.charAt(0).toUpperCase()}${term.slice(1)}`;
+            let result: IMagicCard[] = [];
+
+            if (filterType === FilterTypes.NAME) {
+                result = cards.filter(card => card.name.includes(term));
+            }
+            else if (filterType === FilterTypes.COLOR) {
+                result = cards.filter(card => card.colors.includes(term));
+            }
+            setFilteredCards(result);
         }
         else {
             setIsSearchActive(false);
-        }
-        // capitalize first letter of entered term
-        term = `${term.charAt(0).toUpperCase()}${term.slice(1)}`;
-        let result: IMagicCard[];
-
-        if (filterType === FilterTypes.NAME) {
-            result = cards.filter(card => card.name.includes(term));
-
-            if (result) {
-                setFilteredCards(result);
-            }
-        }
-        else if (filterType === FilterTypes.COLOR) {
-            result = cards.filter(card => card.colors.includes(term));
-
-            if (result) {
-                setFilteredCards(result);
-            }
         }
     };
 
