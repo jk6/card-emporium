@@ -4,13 +4,24 @@ import { getAllCards } from '../../../data/api';
 import { IMagicCard } from '../../../data/models/IMagicCard';
 import CardDetail from '../card-detail/CardDetail';
 
+const enum FilterTypes {
+    'NAME' = 'Name',
+    'COLOR' = 'Color'
+}
+
+const enum Page {
+    'DEFAULT_PAGE_NUMBER' = 1,
+    'DEFAULT_PAGE_SIZE' = 12
+}
+
 const CardsGallery = () => {
     const [cards, setCards] = useState<IMagicCard[]>([]);
     const [filteredCards, setFilteredCards] = useState<IMagicCard[]>([]);
     const [selected, setSelected] = useState<IMagicCard>();
-    const [page, setPage] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(12);
-    const [filterType, setFilterType] = useState<string>('Name');
+    const [page, setPage] = useState<number>(Page.DEFAULT_PAGE_NUMBER);
+    const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
+    const [pageSize, setPageSize] = useState<number>(Page.DEFAULT_PAGE_SIZE);
+    const [filterType, setFilterType] = useState<string>(FilterTypes.NAME);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
@@ -35,19 +46,29 @@ const CardsGallery = () => {
     }
 
     const filterResults = (term: string) => {
-        // capitalize first letter of entered name
+        if (term) {
+            setIsSearchActive(true);
+        }
+        else {
+            setIsSearchActive(false);
+        }
+        // capitalize first letter of entered term
         term = `${term.charAt(0).toUpperCase()}${term.slice(1)}`;
         let result: IMagicCard[];
 
-        if (filterType === 'Name') {
+        if (filterType === FilterTypes.NAME) {
             result = cards.filter(card => card.name.includes(term));
-            setFilteredCards(result);
+
+            if (result) {
+                setFilteredCards(result);
+            }
         }
-        else if (filterType === 'Color') {
+        else if (filterType === FilterTypes.COLOR) {
             result = cards.filter(card => card.colors.includes(term));
-            // TODO:
-            console.log(term);
-            setFilteredCards(result);
+
+            if (result) {
+                setFilteredCards(result);
+            }
         }
     };
 
@@ -60,7 +81,8 @@ const CardsGallery = () => {
         setIsModalOpen(false);
     };
 
-    const cardsToDisplay = filteredCards.length ? filteredCards : cards;
+    const cardsToDisplay = filteredCards.length && isSearchActive ? filteredCards : cards;
+    const magicCardColors: Array<'red' | 'blue' | 'black' | 'white' | 'green'> = ['red', 'blue', 'black', 'white', 'green'];
 
     const results = cardsToDisplay.map((card: IMagicCard) => {
         return <span style={styles.hover} onClick={() => handleOpenModal(card)} key={`${card.id}`}>
@@ -69,7 +91,7 @@ const CardsGallery = () => {
     });
 
     if (cards && cards?.length) {
-        // TODO: replace with different solution
+        // TODO: replace with different solution in next iteration
         let pageLinksDisplay = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i: number) => {
             return (
                 <span
@@ -82,22 +104,39 @@ const CardsGallery = () => {
             );
         });
 
+        const colorsOptionsDisplay = magicCardColors.map((color: string, i: number) => {
+            return <option key={i} value={color}>{color}</option>;
+        });
+
         return (
             <>
-                <div>{results}</div>
-                <div>{pageLinksDisplay}</div>
+                {isSearchActive && filteredCards.length === 0 ?
+                    <div>No results found.</div>
+                    :
+                    <>
+                        <div>{results}</div>
+                        <div>{pageLinksDisplay}</div>
+                    </>
+                }
                 <br />
                 <br />
                 <strong>Filter results by</strong>&nbsp;
-                <select onChange={(value) => handleChangeFilterType(value.target.value)}>
-                    <option value={'Name'}>Name</option>
-                    <option value={'Color'}>Color</option>
+                <select onChange={(e) => handleChangeFilterType(e.target.value)}>
+                    <option value={FilterTypes.NAME}>Name</option>
+                    <option value={FilterTypes.COLOR}>Color</option>
                 </select>&nbsp;
-                <input
-                    type="text"
-                    id="search"
-                    onChange={(e) => filterResults(e.target.value)}
-                />
+
+                {filterType === FilterTypes.NAME &&
+                    <input
+                        type="text"
+                        id="search"
+                        onChange={(e) => filterResults(e.target.value)}
+                    />}
+
+                {filterType === FilterTypes.COLOR &&
+                    <select onChange={e => filterResults(e.target.value)}>
+                        {colorsOptionsDisplay}
+                    </select>}
                 <br />
                 <br />
 
@@ -108,7 +147,6 @@ const CardsGallery = () => {
                     </div>
                 </ReactModal>
             </>
-
         );
     }
     else {
