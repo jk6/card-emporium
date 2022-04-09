@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
-import { getAllCards } from '../../../data/api';
+import { API } from '../../../data/api';
 import { IMagicCard } from '../../../data/models/IMagicCard';
 import CardDetail from '../card-detail/CardDetail';
 
@@ -26,7 +26,7 @@ const CardsGallery = () => {
 
     useEffect(() => {
         const getData = async (): Promise<void> => {
-            const result = await getAllCards(page, pageSize);
+            const result = await API.getAllCards(page, pageSize);
 
             if (result) {
                 setCards(result);
@@ -105,7 +105,7 @@ const CardsGallery = () => {
         return (
             <>
                 {isSearchActive && filteredCards.length === 0 ?
-                    <div>No results found.</div>
+                    <div data-testid="noFilterResults">No results found.</div>
                     :
                     <>
                         <div>{results}</div>
@@ -123,7 +123,7 @@ const CardsGallery = () => {
                 {filterType === FilterTypes.NAME &&
                     <input
                         type="text"
-                        id="search"
+                        data-testid="search"
                         onChange={(e) => filterResults(e.target.value)}
                     />}
 
@@ -145,7 +145,7 @@ const CardsGallery = () => {
     }
     else {
         return (
-            <div>No cards found.</div>
+            <div data-testid="noCards">No cards found.</div>
         );
     }
 };

@@ -3,12 +3,23 @@ import { Hash } from 'crypto';
 export interface IMagicCard {
     name: string;
     names?: string[];
-    layout: 'normal|split|flip|double-faced|token|plane|scheme|phenomenon|leveler|vanguard|aftermath';
+    layout:
+        | 'normal'
+        | 'split'
+        | 'flip'
+        | 'double-faced'
+        | 'token'
+        | 'plane'
+        | 'scheme'
+        | 'phenomenon'
+        | 'leveler'
+        | 'vanguard'
+        | 'aftermath';
     cmc: number;
     colors: string[];
     colorIdentity: string[];
     type: string;
-    supertypes: string[];
+    supertypes?: string[];
     types: string[];
     legalities: ILegality[];
     manaCost: string;
@@ -21,14 +32,14 @@ export interface IMagicCard {
     number: string;
     power: string;
     toughness: string;
-    multiverseid: number;
+    multiverseid?: number;
     imageUrl: string;
-    rulings: IRuling[];
+    rulings?: IRuling[];
     foreignNames: IForeignName[];
     printings: string[];
     originalText: string;
     originalType: string;
-    id: Hash;
+    id: string;
     flavor?: string;
     gameFormat?: string;
     legality?: string;
@@ -42,8 +53,12 @@ export interface IRuling {
 
 export interface IForeignName {
     name: string;
+    flavor?: string;
+    imageUrl?: string;
     language: string;
     multiverseid: number;
+    text?: string;
+    type?: string;
 }
 
 export interface ILegality {
