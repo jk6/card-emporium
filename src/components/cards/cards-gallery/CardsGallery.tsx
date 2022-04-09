@@ -14,11 +14,40 @@ const enum Page {
     'DEFAULT_PAGE_SIZE' = 12
 }
 
+interface ColorOption {
+    name: string;
+    selected: boolean;
+}
+
+const defaultColorOptions: ColorOption[] = [
+    {
+        name: 'Red',
+        selected: false
+    },
+    {
+        name: 'White',
+        selected: false
+    },
+    {
+        name: 'Blue',
+        selected: false
+    },
+    {
+        name: 'Black',
+        selected: false
+    },
+    {
+        name: 'Green',
+        selected: false
+    },
+]
+
 const CardsGallery = () => {
     const [cards, setCards] = useState<IMagicCard[]>([]);
     const [filteredCards, setFilteredCards] = useState<IMagicCard[]>([]);
     const [selected, setSelected] = useState<IMagicCard>();
     const [page, setPage] = useState<number>(Page.DEFAULT_PAGE_NUMBER);
+    const [colorOptions, setColorOptions] = useState<ColorOption[]>(defaultColorOptions);
     const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
     const [pageSize, setPageSize] = useState<number>(Page.DEFAULT_PAGE_SIZE);
     const [filterType, setFilterType] = useState<string>(FilterTypes.NAME);
@@ -58,12 +87,34 @@ const CardsGallery = () => {
             }
             else if (filterType === FilterTypes.COLOR) {
                 result = cards.filter(card => card.colors.includes(term));
+                toggleColorSelected(term);
             }
             setFilteredCards(result);
         }
         else {
             setIsSearchActive(false);
         }
+    };
+
+    const toggleColorSelected = (value: string) => {
+        let colors = colorOptions;
+        let index: number = 0;
+
+        for (let i = 0; i < colors.length; i++) {
+            if (colors[i].name === value) {
+                index = i;
+            }
+        }
+
+        colors = [
+            ...colors.slice(0, index),
+            Object.assign({}, colors[index], {
+                selected: !colors[index].selected,
+            }),
+            ...colors.slice(index + 1)
+        ];
+
+        setColorOptions(colors);
     };
 
     const handleOpenModal = (card: IMagicCard) => {
@@ -76,7 +127,6 @@ const CardsGallery = () => {
     };
 
     const cardsToDisplay = filteredCards.length && isSearchActive ? filteredCards : cards;
-    const magicCardColors: Array<'red' | 'blue' | 'black' | 'white' | 'green'> = ['red', 'blue', 'black', 'white', 'green'];
 
     const results = cardsToDisplay.map((card: IMagicCard) => {
         return <span style={styles.hover} onClick={() => handleOpenModal(card)} key={`${card.id}`}>
@@ -98,8 +148,15 @@ const CardsGallery = () => {
             );
         });
 
-        const colorsOptionsDisplay = magicCardColors.map((color: string, i: number) => {
-            return <option key={i} value={color}>{color}</option>;
+        const colorsOptionsDisplay = colorOptions.map((color: ColorOption, i: number) => {
+            return <option
+                key={i}
+                value={color.name}
+                onClick={() => toggleColorSelected(color.name)}
+                style={color.selected ? styles.selected : null}>
+                {color.selected ? `**${color.name}` : color.name}
+            </option>
+
         });
 
         return (
@@ -128,7 +185,7 @@ const CardsGallery = () => {
                     />}
 
                 {filterType === FilterTypes.COLOR &&
-                    <select onChange={e => filterResults(e.target.value)}>
+                    <select onChange={(e) => filterResults(e.target.value)}>
                         {colorsOptionsDisplay}
                     </select>}
                 <br />
@@ -160,6 +217,9 @@ const styles: any = {
     cardPadding: {
         padding: '2px',
     },
+    selected: {
+        backgroundColor: 'yellow'
+    }
 };
 
 export default CardsGallery;
