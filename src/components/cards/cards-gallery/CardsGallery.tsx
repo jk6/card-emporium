@@ -148,8 +148,16 @@ const CardsGallery = () => {
     });
 
     if (cards && cards?.length) {
+        const previousLinkDisplay = <span onClick={() => handleChangePage(page - 1)}>
+            <a href="#">Prev</a>&nbsp;&nbsp;
+        </span>;
+
+        const nextLinkDisplay = <span onClick={() => handleChangePage(page + 1)}>
+            <a href="#">Next</a>&nbsp;&nbsp;
+        </span>;
+
         // TODO: replace with dynamically-generated links solution in next iteration
-        let pageLinksDisplay = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i: number) => {
+        const pageLinksDisplay = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i: number) => {
             return (
                 <span
                     key={i}
@@ -189,8 +197,7 @@ const CardsGallery = () => {
                                 classNamePrefix="select"
                                 onChange={filterColors}
                             />
-                        </div>
-                    }
+                        </div>}
                 </div>
                 <br />
                 {isSearchActive && filteredCards.length === 0 ?
@@ -198,12 +205,15 @@ const CardsGallery = () => {
                     :
                     <div>
                         <div>{results}</div>
-                        <div>{pageLinksDisplay}</div>
+                        <div>
+                            {page > 1 && previousLinkDisplay}
+                            {pageLinksDisplay}
+                            {page < 10 && nextLinkDisplay}
+                        </div>
                     </div>
                 }
                 <br />
                 <br />
-
 
                 <ReactModal isOpen={isModalOpen} ariaHideApp={false}>
                     <div>
