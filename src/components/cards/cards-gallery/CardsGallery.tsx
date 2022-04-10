@@ -60,7 +60,9 @@ const StyledGalleryImage = styled.img`
 `;
 
 const SpaceSpan = styled.span`
-    margin-bottom: -150px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 `;
 
 const CardsGallery = () => {
@@ -167,6 +169,36 @@ const CardsGallery = () => {
 
         return (
             <>
+                <div>
+                    <br />
+                    <strong>Filter results by</strong>&nbsp;
+                    <select onChange={(e) => handleChangeFilterType(e.target.value)}>
+                        <option value={FilterTypes.NAME}>Name</option>
+                        <option value={FilterTypes.COLOR}>Color</option>
+                    </select>&nbsp;
+
+                    {filterType === FilterTypes.NAME &&
+                        <input
+                            type="text"
+                            data-testid="search"
+                            onChange={(e) => filterName(e.target.value)}
+                        />}
+
+                    {filterType === FilterTypes.COLOR &&
+                        <div style={styles.multiSelectWidth}>
+                            <Select
+                                defaultValue={[]}
+                                isMulti
+                                name="colors"
+                                options={colorOptions}
+                                className="basic-multi-select"
+                                classNamePrefix="select"
+                                onChange={filterColors}
+                            />
+                        </div>
+                    }
+                </div>
+                <br />
                 {isSearchActive && filteredCards.length === 0 ?
                     <div data-testid="noFilterResults">No results found.</div>
                     :
@@ -177,35 +209,10 @@ const CardsGallery = () => {
                 }
                 <br />
                 <br />
-                <strong>Filter results by</strong>&nbsp;
-                <select onChange={(e) => handleChangeFilterType(e.target.value)}>
-                    <option value={FilterTypes.NAME}>Name</option>
-                    <option value={FilterTypes.COLOR}>Color</option>
-                </select>&nbsp;
 
-                {filterType === FilterTypes.NAME &&
-                    <input
-                        type="text"
-                        data-testid="search"
-                        onChange={(e) => filterName(e.target.value)}
-                    />}
-
-                {filterType === FilterTypes.COLOR &&
-                    <div style={styles.multiSelectWidth}>
-                        <Select
-                            defaultValue={[]}
-                            isMulti
-                            name="colors"
-                            options={colorOptions}
-                            className="basic-multi-select"
-                            classNamePrefix="select"
-                            onChange={filterColors}
-                        />
-                    </div>
-                }
                 <br />
                 <br />
-                <SpaceSpan></SpaceSpan>
+                <SpaceSpan>&nbsp;</SpaceSpan>
 
                 <ReactModal isOpen={isModalOpen} ariaHideApp={false}>
                     <div>
