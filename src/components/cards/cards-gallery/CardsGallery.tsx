@@ -72,7 +72,7 @@ const CardsGallery = () => {
 
     useEffect(() => {
         const getData = async (): Promise<void> => {
-            const result = await API.getAllCards(page, pageSize);
+            const result = await API.getPageOfCards(page, pageSize);
 
             if (result) {
                 setCards(result);

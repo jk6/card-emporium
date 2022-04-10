@@ -1,4 +1,4 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { API } from '../../../../data/api';
 import { IMagicCard } from '../../../../data/models/IMagicCard';
 import CardsGallery from '../CardsGallery';
@@ -53,8 +53,7 @@ describe('<CardsGallery />', () => {
 
     it('should make the API call', () => {
         // TODO: jest.spyOn is not working: getting 'Property 'spyOn' does not exist on type 'typeof jest'
-
-        // const apiSpy = jest.spyOn(API, 'getAllCards').mockImplementation(() => {});
-        // expect(API.getAllCards).toBeCalled();
+        // const apiSpy = jest.spyOn(API, 'getPageOfCards').mockImplementation(() => {});
+        // expect(API.getPageOfCards).toBeCalled();
     });
 });
