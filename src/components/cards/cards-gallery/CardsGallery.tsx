@@ -4,6 +4,7 @@ import { API } from '../../../data/api';
 import { IMagicCard } from '../../../data/models/IMagicCard';
 import CardDetail from '../card-detail/CardDetail';
 import Select from 'react-select';
+import styled from 'styled-components';
 
 const enum FilterTypes {
     'NAME' = 'Name',
@@ -41,7 +42,26 @@ const defaultColorOptions: ColorOption[] = [
         value: 'Green',
         label: 'Green'
     },
-]
+];
+
+const StyledButton = styled.button`
+    border: 2px solid black;
+    background-color: white;
+    border-radius: 8px;
+    color: black;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+`;
+
+const StyledGalleryImage = styled.img`
+    padding: 2px;
+    cursor: pointer;
+`;
+
+const SpaceSpan = styled.span`
+    margin-bottom: -150px;
+`;
 
 const CardsGallery = () => {
     const [cards, setCards] = useState<IMagicCard[]>([]);
@@ -122,9 +142,13 @@ const CardsGallery = () => {
     const cardsToDisplay = filteredCards.length && isSearchActive ? filteredCards : cards;
 
     const results = cardsToDisplay.map((card: IMagicCard) => {
-        return <span style={styles.hover} onClick={() => handleOpenModal(card)} key={`${card.id}`}>
-            <img style={styles.cardPadding} src={card.imageUrl} />
-        </span>
+        return (
+            <StyledGalleryImage
+                key={`${card.id}`}
+                src={card.imageUrl}
+                onClick={() => handleOpenModal(card)}
+            />
+        );
     });
 
     if (cards && cards?.length) {
@@ -181,10 +205,11 @@ const CardsGallery = () => {
                 }
                 <br />
                 <br />
+                <SpaceSpan></SpaceSpan>
 
                 <ReactModal isOpen={isModalOpen} ariaHideApp={false}>
                     <div>
-                        <button onClick={handleCloseModal} type="button">Close</button>
+                        <StyledButton onClick={handleCloseModal} type="button">Close</StyledButton>
                         <CardDetail card={selected} />
                     </div>
                 </ReactModal>
@@ -199,14 +224,8 @@ const CardsGallery = () => {
 };
 
 const styles: any = {
-    hover: {
-        cursor: 'pointer',
-    },
     active: {
         fontSize: '22px',
-    },
-    cardPadding: {
-        padding: '2px',
     },
     multiSelectWidth: {
         maxWidth: '60%'

@@ -1,4 +1,14 @@
 import { ILegality, IMagicCard } from "../../../data/models/IMagicCard";
+import styled from 'styled-components';
+
+const StyledList = styled.ul`
+    list-style: none;
+`;
+
+const StyledImage = styled.img`
+    height: 400px;
+    width: 284px;
+`;
 
 const CardDetail = ({ card }: { card: IMagicCard } | any) => {
     const {
@@ -47,7 +57,7 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
         <>
             <h1>{name}</h1>
             <div>
-                <img src={imageUrl} height={400} width={284} alt={name} />
+                <StyledImage src={imageUrl} alt={name} />
             </div>
 
             {flavor && <p><em>"{flavor.replace('"', '')}"</em></p>}
@@ -66,7 +76,7 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
             <div>
                 <strong>Legalities: </strong>
                 {legalities.length ?
-                    <ul style={styles.list}>{legalitiesDisplay}</ul>
+                    <StyledList>{legalitiesDisplay}</StyledList>
                     : notAvailable}
             </div>
 
@@ -78,11 +88,5 @@ const CardDetail = ({ card }: { card: IMagicCard } | any) => {
         </>
     );
 };
-
-const styles = {
-    list: {
-        listStyle: 'none',
-    }
-}
 
 export default CardDetail;
