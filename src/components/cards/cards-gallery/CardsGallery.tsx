@@ -16,12 +16,12 @@ const enum Page {
     'DEFAULT_PAGE_SIZE' = 12
 }
 
-interface ColorOption {
+interface IColorOption {
     value: 'Red' | 'White' | 'Blue' | 'Black' | 'Green';
     label: 'Red' | 'White' | 'Blue' | 'Black' | 'Green';
 }
 
-const defaultColorOptions: ColorOption[] = [
+const defaultColorOptions: IColorOption[] = [
     {
         value: 'Red',
         label: 'Red'
@@ -95,7 +95,7 @@ const CardsGallery = () => {
             setIsSearchActive(true);
 
             let result: IMagicCard[] = [];
-            const colorNames: string[] = colors.map((card: any) => card.value);
+            const colorNames: string[] = colors.map((card: IColorOption) => card.value);
 
             colorNames.forEach(color => {
                 let tempResult: IMagicCard[] = cards.filter((card: IMagicCard) => card.colors.includes(color));
