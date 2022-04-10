@@ -5,7 +5,7 @@ MVP of an app for all your MTG card needs, with card data retrieved from https:/
 Some issues were encountered: cards which don't have the multiverseid don't seem to want to display images, for some reason.
 
 Also encountered some issues with create-react-app/TypeScript and Jest (had to do some research to get Jest working); now encountering
-an issue with spyOn (jest.spyOn) not being available. (Property 'spyOn' does not exist on type 'typeof jest'.ts(2339))
+an issue with spyOn (jest.spyOn) not being available. (Property 'spyOn' does not exist on type 'typeof jest'. ts(2339))
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
