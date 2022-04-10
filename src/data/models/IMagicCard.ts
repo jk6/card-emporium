@@ -1,5 +1,3 @@
-import { Hash } from 'crypto';
-
 export interface IMagicCard {
     name: string;
     names?: string[];
