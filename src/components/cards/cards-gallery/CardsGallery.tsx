@@ -59,12 +59,6 @@ const StyledGalleryImage = styled.img`
     cursor: pointer;
 `;
 
-const SpaceSpan = styled.span`
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-`;
-
 const CardsGallery = () => {
     const [cards, setCards] = useState<IMagicCard[]>([]);
     const [filteredCards, setFilteredCards] = useState<IMagicCard[]>([]);
@@ -202,17 +196,14 @@ const CardsGallery = () => {
                 {isSearchActive && filteredCards.length === 0 ?
                     <div data-testid="noFilterResults">No results found.</div>
                     :
-                    <>
+                    <div>
                         <div>{results}</div>
                         <div>{pageLinksDisplay}</div>
-                    </>
+                    </div>
                 }
                 <br />
                 <br />
 
-                <br />
-                <br />
-                <SpaceSpan>&nbsp;</SpaceSpan>
 
                 <ReactModal isOpen={isModalOpen} ariaHideApp={false}>
                     <div>
