@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
+import Select from 'react-select';
+import styled from 'styled-components';
 import { API } from '../../../data/api';
 import { IMagicCard } from '../../../data/models/IMagicCard';
 import CardDetail from '../card-detail/CardDetail';
-import Select from 'react-select';
-import styled from 'styled-components';
 
 const enum FilterTypes {
     'NAME' = 'Name',
