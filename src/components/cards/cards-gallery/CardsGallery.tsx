@@ -95,7 +95,7 @@ const CardsGallery = () => {
             setIsSearchActive(true);
 
             let result: IMagicCard[] = [];
-            const colorNames: string[] = colors.map((card: IColorOption) => card.value);
+            const colorNames: string[] = colors.map((colorOption: IColorOption) => colorOption.value);
 
             colorNames.forEach(color => {
                 let tempResult: IMagicCard[] = cards.filter((card: IMagicCard) => card.colors.includes(color));
