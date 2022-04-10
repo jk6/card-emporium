@@ -3,6 +3,7 @@ import ReactModal from 'react-modal';
 import { API } from '../../../data/api';
 import { IMagicCard } from '../../../data/models/IMagicCard';
 import CardDetail from '../card-detail/CardDetail';
+import Select from 'react-select';
 
 const enum FilterTypes {
     'NAME' = 'Name',
@@ -15,30 +16,30 @@ const enum Page {
 }
 
 interface ColorOption {
-    name: string;
-    selected: boolean;
+    value: string;
+    label: string;
 }
 
 const defaultColorOptions: ColorOption[] = [
     {
-        name: 'Red',
-        selected: false
+        value: 'Red',
+        label: 'Red'
     },
     {
-        name: 'White',
-        selected: false
+        value: 'White',
+        label: 'White'
     },
     {
-        name: 'Blue',
-        selected: false
+        value: 'Blue',
+        label: 'Blue'
     },
     {
-        name: 'Black',
-        selected: false
+        value: 'Black',
+        label: 'Black'
     },
     {
-        name: 'Green',
-        selected: false
+        value: 'Green',
+        label: 'Green'
     },
 ]
 
@@ -47,7 +48,7 @@ const CardsGallery = () => {
     const [filteredCards, setFilteredCards] = useState<IMagicCard[]>([]);
     const [selected, setSelected] = useState<IMagicCard>();
     const [page, setPage] = useState<number>(Page.DEFAULT_PAGE_NUMBER);
-    const [colorOptions, setColorOptions] = useState<ColorOption[]>(defaultColorOptions);
+    const [colorOptions, setColorOptions] = useState<any[]>(defaultColorOptions);
     const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
     const [pageSize, setPageSize] = useState<number>(Page.DEFAULT_PAGE_SIZE);
     const [filterType, setFilterType] = useState<string>(FilterTypes.NAME);
@@ -74,21 +75,40 @@ const CardsGallery = () => {
         setFilterType(value);
     }
 
-    const filterResults = (term: string) => {
+    const filterColors = (e: any) => {
+        setIsSearchActive(true);
+        // TODO:
+        console.log('called!', e);
+        let result: any[] = [];
+        let terms: any[] = e.map((card: any) => card.value);
+
+        terms.forEach(color => {
+            let tempResult: IMagicCard[] = [];
+            tempResult = cards.filter(card => card.colors.includes(color));
+
+            if (tempResult.length) {
+                result.push(...tempResult);
+            }
+        })
+
+        // TODO:
+        console.log(e);
+        console.log('terms', terms);
+
+        setFilteredCards(result);
+
+        // TODO:
+        console.log('result', result);
+        console.log('filteredCards now', filteredCards)
+    };
+
+    const filterName = (term: string) => {
         if (term) {
             setIsSearchActive(true);
 
             // capitalize first letter of entered term
             term = `${term.charAt(0).toUpperCase()}${term.slice(1)}`;
-            let result: IMagicCard[] = [];
-
-            if (filterType === FilterTypes.NAME) {
-                result = cards.filter(card => card.name.includes(term));
-            }
-            else if (filterType === FilterTypes.COLOR) {
-                result = cards.filter(card => card.colors.includes(term));
-                toggleColorSelected(term);
-            }
+            let result: IMagicCard[] = cards.filter(card => card.name.includes(term));
             setFilteredCards(result);
         }
         else {
@@ -96,26 +116,6 @@ const CardsGallery = () => {
         }
     };
 
-    const toggleColorSelected = (value: string) => {
-        let colors = colorOptions;
-        let index: number = 0;
-
-        for (let i = 0; i < colors.length; i++) {
-            if (colors[i].name === value) {
-                index = i;
-            }
-        }
-
-        colors = [
-            ...colors.slice(0, index),
-            Object.assign({}, colors[index], {
-                selected: !colors[index].selected,
-            }),
-            ...colors.slice(index + 1)
-        ];
-
-        setColorOptions(colors);
-    };
 
     const handleOpenModal = (card: IMagicCard) => {
         setSelected(card);
@@ -148,17 +148,6 @@ const CardsGallery = () => {
             );
         });
 
-        const colorsOptionsDisplay = colorOptions.map((color: ColorOption, i: number) => {
-            return <option
-                key={i}
-                value={color.name}
-                onClick={() => toggleColorSelected(color.name)}
-                style={color.selected ? styles.selected : null}>
-                {color.selected ? `**${color.name}` : color.name}
-            </option>
-
-        });
-
         return (
             <>
                 {isSearchActive && filteredCards.length === 0 ?
@@ -181,13 +170,21 @@ const CardsGallery = () => {
                     <input
                         type="text"
                         data-testid="search"
-                        onChange={(e) => filterResults(e.target.value)}
+                        onChange={(e) => filterName(e.target.value)}
                     />}
 
                 {filterType === FilterTypes.COLOR &&
-                    <select onChange={(e) => filterResults(e.target.value)}>
-                        {colorsOptionsDisplay}
-                    </select>}
+
+                    <Select
+                        defaultValue={[]}
+                        isMulti
+                        name="colors"
+                        options={colorOptions}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        onChange={filterColors}
+                    />
+                }
                 <br />
                 <br />
 
