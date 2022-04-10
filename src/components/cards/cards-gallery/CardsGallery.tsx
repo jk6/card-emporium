@@ -86,11 +86,11 @@ const CardsGallery = () => {
         setPage(pageNum);
     };
 
-    const handleChangeFilterType = (value: string) => {
+    const handleChangeFilterType = (value: string): void => {
         setFilterType(value);
     }
 
-    const filterColors = (colors: any) => {
+    const filterColors = (colors: any): void => {
         if (colors.length) {
             setIsSearchActive(true);
 
@@ -112,7 +112,7 @@ const CardsGallery = () => {
         }
     };
 
-    const filterName = (name: string) => {
+    const filterName = (name: string): void => {
         if (name) {
             setIsSearchActive(true);
 
@@ -126,12 +126,12 @@ const CardsGallery = () => {
         }
     };
 
-    const handleOpenModal = (card: IMagicCard) => {
+    const handleOpenModal = (card: IMagicCard): void => {
         setSelected(card);
         setIsModalOpen(true);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (): void => {
         setIsModalOpen(false);
     };
 
