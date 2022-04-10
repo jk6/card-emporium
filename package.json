@@ -1,5 +1,8 @@
 {
   "name": "card-emporium",
+  "author": {
+    "name": "Jason Kelly"
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {
