@@ -16,8 +16,8 @@ const enum Page {
 }
 
 interface ColorOption {
-    value: string;
-    label: string;
+    value: 'Red' | 'White' | 'Blue' | 'Black' | 'Green';
+    label: 'Red' | 'White' | 'Blue' | 'Black' | 'Green';
 }
 
 const defaultColorOptions: ColorOption[] = [
@@ -62,7 +62,6 @@ const CardsGallery = () => {
                 setCards(result);
             }
         };
-
         getData();
     }, [page]);
 
@@ -75,40 +74,21 @@ const CardsGallery = () => {
         setFilterType(value);
     }
 
-    const filterColors = (e: any) => {
-        setIsSearchActive(true);
-        // TODO:
-        console.log('called!', e);
-        let result: any[] = [];
-        let terms: any[] = e.map((card: any) => card.value);
-
-        terms.forEach(color => {
-            let tempResult: IMagicCard[] = [];
-            tempResult = cards.filter(card => card.colors.includes(color));
-
-            if (tempResult.length) {
-                result.push(...tempResult);
-            }
-        })
-
-        // TODO:
-        console.log(e);
-        console.log('terms', terms);
-
-        setFilteredCards(result);
-
-        // TODO:
-        console.log('result', result);
-        console.log('filteredCards now', filteredCards)
-    };
-
-    const filterName = (term: string) => {
-        if (term) {
+    const filterColors = (colors: any) => {
+        if (colors.length) {
             setIsSearchActive(true);
 
-            // capitalize first letter of entered term
-            term = `${term.charAt(0).toUpperCase()}${term.slice(1)}`;
-            let result: IMagicCard[] = cards.filter(card => card.name.includes(term));
+            let result: IMagicCard[] = [];
+            const colorNames: string[] = colors.map((card: any) => card.value);
+
+            colorNames.forEach(color => {
+                let tempResult: IMagicCard[] = cards.filter((card: IMagicCard) => card.colors.includes(color));
+
+                if (tempResult.length) {
+                    result.push(...tempResult);
+                }
+            });
+
             setFilteredCards(result);
         }
         else {
@@ -116,6 +96,19 @@ const CardsGallery = () => {
         }
     };
 
+    const filterName = (name: string) => {
+        if (name) {
+            setIsSearchActive(true);
+
+            // capitalize first letter of entered name
+            name = `${name.charAt(0).toUpperCase()}${name.slice(1)}`;
+            let result: IMagicCard[] = cards.filter(card => card.name.includes(name));
+            setFilteredCards(result);
+        }
+        else {
+            setIsSearchActive(false);
+        }
+    };
 
     const handleOpenModal = (card: IMagicCard) => {
         setSelected(card);
@@ -135,7 +128,7 @@ const CardsGallery = () => {
     });
 
     if (cards && cards?.length) {
-        // TODO: replace with different solution in next iteration
+        // TODO: replace with dynamically-generated links solution in next iteration
         let pageLinksDisplay = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i: number) => {
             return (
                 <span
@@ -174,16 +167,17 @@ const CardsGallery = () => {
                     />}
 
                 {filterType === FilterTypes.COLOR &&
-
-                    <Select
-                        defaultValue={[]}
-                        isMulti
-                        name="colors"
-                        options={colorOptions}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        onChange={filterColors}
-                    />
+                    <div style={styles.multiSelectWidth}>
+                        <Select
+                            defaultValue={[]}
+                            isMulti
+                            name="colors"
+                            options={colorOptions}
+                            className="basic-multi-select"
+                            classNamePrefix="select"
+                            onChange={filterColors}
+                        />
+                    </div>
                 }
                 <br />
                 <br />
@@ -214,8 +208,8 @@ const styles: any = {
     cardPadding: {
         padding: '2px',
     },
-    selected: {
-        backgroundColor: 'yellow'
+    multiSelectWidth: {
+        maxWidth: '60%'
     }
 };
 
