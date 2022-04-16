@@ -64,11 +64,11 @@ const CardsGallery = () => {
     const [filteredCards, setFilteredCards] = useState<IMagicCard[]>([]);
     const [selected, setSelected] = useState<IMagicCard>();
     const [page, setPage] = useState<number>(Page.DEFAULT_PAGE_NUMBER);
-    const [colorOptions, setColorOptions] = useState<any[]>(defaultColorOptions);
     const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
-    const [pageSize, setPageSize] = useState<number>(Page.DEFAULT_PAGE_SIZE);
     const [filterType, setFilterType] = useState<string>(FilterTypes.NAME);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const pageSize = Page.DEFAULT_PAGE_SIZE;
+    const colorOptions: any[] = defaultColorOptions;
 
     useEffect(() => {
         const getData = async (): Promise<void> => {
@@ -118,7 +118,7 @@ const CardsGallery = () => {
 
             // capitalize first letter of entered name
             name = `${name.charAt(0).toUpperCase()}${name.slice(1)}`;
-            let result: IMagicCard[] = cards.filter(card => card.name.includes(name));
+            const result: IMagicCard[] = cards.filter(card => card.name.includes(name));
             setFilteredCards(result);
         }
         else {
@@ -231,7 +231,7 @@ const CardsGallery = () => {
     }
 };
 
-const styles: any = {
+const styles: Record<string, any> = {
     active: {
         fontSize: '22px',
     },
