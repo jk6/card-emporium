@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
 import Select from 'react-select';
 import styled from 'styled-components';
@@ -112,8 +112,9 @@ const CardsGallery = () => {
         }
     };
 
-    const filterName = (name: string): void => {
-        if (name) {
+    const filterName = (e: ChangeEvent<HTMLInputElement>): void => {
+        if (e.target.value) {
+            let name = e.target.value;
             setIsSearchActive(true);
 
             // capitalize first letter of entered name
@@ -183,7 +184,7 @@ const CardsGallery = () => {
                         <input
                             type="text"
                             data-testid="search"
-                            onChange={(e) => filterName(e.target.value)}
+                            onChange={filterName}
                         />}
 
                     {filterType === FilterTypes.COLOR &&
